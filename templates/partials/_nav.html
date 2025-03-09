@@ -1,0 +1,34 @@
+{% load static %}
+<nav class="bg-indigo-600 fixed w-full z-20 top-0 border-b border-indigo-700 shadow p-4">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+    <a href="/" class="flex items-center">
+      <svg class="h-8 mr-2 text-white" viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+        <text x="0" y="15" font-family="Arial, sans-serif" font-size="15">KEN</text>
+      </svg>
+    </a>
+    <div class="flex md:order-2 space-x-3">
+      <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-white rounded-lg md:hidden hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white" aria-controls="navbar-sticky" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+        </svg>
+      </button>
+    </div>
+    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+      <ul class="flex flex-col md:flex-row md:space-x-8 md:mt-0 mt-4 font-medium">
+        <li>
+          <a href="{% url 'index' %}" class="block py-2 px-3 text-white hover:text-indigo-200">Home</a>
+        </li>
+        <li>
+          <a href="{% url 'tournament' %}" class="block py-2 px-3 text-white hover:text-indigo-200">Tournaments</a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="block py-2 px-3 text-white hover:text-indigo-200">About</a>
+        </li>
+        <li>
+          <a href="{% url 'about' %}" class="block py-2 px-3 text-white hover:text-indigo-200">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

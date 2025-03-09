@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<div class="bg-white shadow rounded p-6">
+    <!-- QR Code -->
+    <div class="mb-4 border border-gray-300 p-2 rounded">
+      <h3 class="text-lg font-medium mb-2">Scan to Follow</h3>
+      <img src="{% static 'images/qr_code.png' %}" alt="QR Code" class="w-32 h-32">
+    </div>
+    <!-- Reels Card -->
+    <div>
+      <h3 class="text-lg font-medium mb-2">Latest Reels</h3>
+      <div class="bg-gray-100 p-4 rounded">
+        <p class="text-gray-600">Reel preview/thumbnail goes here.</p>
+      </div>
+    </div>
+    <h2 class="text-xl font-semibold mb-4 mt-4">Follow Us</h2>
+    <!-- Social Media Icons -->
+    <div class="flex space-x-4 mb-4">
+      <a href="#" class="text-indigo-600 hover:text-indigo-800">
+        <i class="fab fa-facebook fa-2x"></i>
+      </a>
+      <a href="#" class="text-indigo-600 hover:text-indigo-800">
+        <i class="fab fa-twitter fa-2x"></i>
+      </a>
+      <a href="#" class="text-indigo-600 hover:text-indigo-800">
+        <i class="fab fa-instagram fa-2x"></i>
+      </a>
+      <a href="#" class="text-indigo-600 hover:text-indigo-800">
+        <i class="fab fa-linkedin fa-2x"></i>
+      </a>
+    </div>
+  </div>
