@@ -26,8 +26,10 @@ SECRET_KEY = config("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-# If you expect only one host in ALLOWED_HOSTS, simply wrap it in a list.
-ALLOWED_HOSTS = [config("ALLOWED_HOSTS", default="")]
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = [config("ALLOWED_HOSTS", default="")]
 
 
 # Application definition

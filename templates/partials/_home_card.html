@@ -2,9 +2,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <div class="bg-white shadow rounded p-6">
     <!-- QR Code -->
-    <div class="mb-4 border border-gray-300 p-2 rounded">
+    <div class="mb-4 border border-gray-300 p-2 rounded text-center">
       <h3 class="text-lg font-medium mb-2">Scan to Follow</h3>
-      <img src="{% static 'images/qr_code.png' %}" alt="QR Code" class="w-32 h-32">
+      <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="w-48 h-48 mx-auto">
     </div>
     <!-- Reels Card -->
     <div>
@@ -15,7 +15,7 @@
     </div>
     <h2 class="text-xl font-semibold mb-4 mt-4">Follow Us</h2>
     <!-- Social Media Icons -->
-    <div class="flex space-x-4 mb-4">
+    <div class="flex justify-center space-x-4 mb-4">
       <a href="#" class="text-indigo-600 hover:text-indigo-800">
         <i class="fab fa-facebook fa-2x"></i>
       </a>
@@ -29,4 +29,4 @@
         <i class="fab fa-linkedin fa-2x"></i>
       </a>
     </div>
-  </div>
+</div>
