@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import TeamRegistrationForm
 import math
 
 
@@ -145,7 +146,7 @@ def tournament_detail(request, tournament_id):
         "prize": "1,00,000",
         "date": "Mar 15-20, 2025",
         "location": "Kochi",
-        "teams": 5,  # Changed to 7 for testing odd number
+        "teams": 6,  # Changed to 7 for testing odd number
         "format": "5v5 Double Elimination",
         "description": "The flagship esports tournament bringing together the best teams across Kerala to compete for glory!",
         "rules": [
@@ -177,29 +178,71 @@ def tournament_detail(request, tournament_id):
 
 
 def tournament_list(request):
-    # Featured tournament
-    featured_tournament = {
-        "id": 1,
-        "name": "Kerala Esports Championship 2025",
-        "image": "img/ft_tour.png",
-        "game": "Valorant",
-        "game_icon": "img/val_icon.png",
-        "prize": "1,00,000",
-        "date": "Mar 15-20, 2025",
-        "location": "Kochi",
-        "teams": 8,
-        "description": "The flagship esports tournament bringing together the best teams across Kerala to compete for glory!",
-        "status": "Upcoming",
-    }
+    # Featured tournaments
+    featured_tournaments = [
+        {
+            "id": 1,
+            "name": "Kerala Esports Championship 2025",
+            "image": "img/ft_tour.png",
+            "game": "Valorant",
+            "game_icon": "img/val_icon.png",
+            "prize": "1,00,000",
+            "date": "Mar 15-20, 2025",
+            "location": "Kochi",
+            "teams": 8,
+            "description": "The flagship esports tournament bringing together the best teams across Kerala to compete for glory!",
+            "status": "Upcoming",
+        },
+        {
+            "id": 2,
+            "name": "Kerala Mobile Gaming Fest",
+            "image": "img/mobile_gaming_fest.png",
+            "game": "PUBG Mobile",
+            "game_icon": "img/pubg_icon.png",
+            "prize": "50,000",
+            "date": "Apr 10-12, 2025",
+            "location": "Thiruvananthapuram",
+            "teams": 16,
+            "description": "A thrilling mobile gaming tournament featuring the best PUBG Mobile teams.",
+            "status": "Upcoming",
+        },
+    ]
 
     # Tournament list
     tournaments = [
         # Add sample tournaments
     ]
 
+    # Filter options
+    games = [
+        "All Games",
+        "Valorant",
+    ]
+    platforms = [
+        "All Platforms",
+        "PC",
+    ]
+    statuses = ["All Status", "Upcoming", "Ongoing", "Completed"]
+
     context = {
-        "featured_tournament": featured_tournament,
+        "featured_tournaments": featured_tournaments,
         "tournaments": tournaments,
+        "games": games,
+        "platforms": platforms,
+        "statuses": statuses,
     }
 
     return render(request, "tournamentpage/tournament.html", context)
+
+
+def register_team(request):
+    if request.method == "POST":
+        form = TeamRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                "registration_success"
+            )  # Update to your desired success URL name
+    else:
+        form = TeamRegistrationForm()
+    return render(request, "partials/_team_registration.html", {"form": form})

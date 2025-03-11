@@ -13,20 +13,32 @@
         <p class="text-gray-600">Reel preview/thumbnail goes here.</p>
       </div>
     </div>
+    
+    <!-- Announcements Section -->
+    <h2 class="text-xl font-semibold mb-4 mt-4">Announcements</h2>
+    <div class="space-y-4">
+      {% if announcements %}
+        {% for announcement in announcements %}
+        <div class="bg-yellow-100 border border-yellow-300 p-4 rounded">
+          <h3 class="text-lg font-medium mb-2">{{ announcement.title }}</h3>
+          <p class="text-gray-700">{{ announcement.content }}</p>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-gray-700">No announcements yet.</p>
+      {% endif %}
+    </div>
     <h2 class="text-xl font-semibold mb-4 mt-4">Follow Us</h2>
     <!-- Social Media Icons -->
     <div class="flex justify-center space-x-4 mb-4">
       <a href="#" class="text-indigo-600 hover:text-indigo-800">
-        <i class="fab fa-facebook fa-2x"></i>
-      </a>
-      <a href="#" class="text-indigo-600 hover:text-indigo-800">
-        <i class="fab fa-twitter fa-2x"></i>
+        <i class="fab fa-discord fa-2x"></i>
       </a>
       <a href="#" class="text-indigo-600 hover:text-indigo-800">
         <i class="fab fa-instagram fa-2x"></i>
       </a>
       <a href="#" class="text-indigo-600 hover:text-indigo-800">
-        <i class="fab fa-linkedin fa-2x"></i>
+        <i class="fab fa-whatsapp fa-2x"></i>
       </a>
     </div>
 </div>

@@ -1,0 +1,113 @@
+<!-- filepath: /c:/Users/arunb/Documents/Project/Django/KEN/ken/tournamentpage/templates/partials/_team_registration.html -->
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}Team Registration{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto  mb-10">
+  <form method="post" enctype="multipart/form-data" class="bg-white p-8 rounded-lg shadow-lg">
+    {% csrf_token %}
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Register Your Team</h2>
+    <!-- Team Name -->
+    <div class="mb-4">
+      <label for="{{ form.team_name.id_for_label }}" class="block text-gray-700 text-sm font-medium mb-2">Team Name</label>
+      {{ form.team_name }}
+    </div>
+    <!-- Team Logo -->
+    <div class="mb-4">
+      <label for="{{ form.team_logo.id_for_label }}" class="block text-gray-700 text-sm font-medium mb-2">Team Logo</label>
+      {{ form.team_logo }}
+    </div>
+    <!-- Player Details -->
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-medium mb-2">Player Details</label>
+      <div class="space-y-4">
+        <!-- Player 1 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player1.id_for_label }}" class="block text-gray-700 text-sm">Player 1 *</label>
+            {{ form.player1 }}
+          </div>
+          <div>
+            <label for="{{ form.player1_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 1 Riot ID *</label>
+            {{ form.player1_riot_id }}
+          </div>
+        </div>
+        <!-- Player 2 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player2.id_for_label }}" class="block text-gray-700 text-sm">Player 2 *</label>
+            {{ form.player2 }}
+          </div>
+          <div>
+            <label for="{{ form.player2_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 2 Riot ID *</label>
+            {{ form.player2_riot_id }}
+          </div>
+        </div>
+        <!-- Player 3 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player3.id_for_label }}" class="block text-gray-700 text-sm">Player 3 *</label>
+            {{ form.player3 }}
+          </div>
+          <div>
+            <label for="{{ form.player3_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 3 Riot ID *</label>
+            {{ form.player3_riot_id }}
+          </div>
+        </div>
+        <!-- Player 4 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player4.id_for_label }}" class="block text-gray-700 text-sm">Player 4 *</label>
+            {{ form.player4 }}
+          </div>
+          <div>
+            <label for="{{ form.player4_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 4 Riot ID *</label>
+            {{ form.player4_riot_id }}
+          </div>
+        </div>
+        <!-- Player 5 -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player5.id_for_label }}" class="block text-gray-700 text-sm">Player 5 *</label>
+            {{ form.player5 }}
+          </div>
+          <div>
+            <label for="{{ form.player5_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 5 Riot ID *</label>
+            {{ form.player5_riot_id }}
+          </div>
+        </div>
+        <!-- Player 6 (Optional) -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player6.id_for_label }}" class="block text-gray-700 text-sm">Player 6</label>
+            {{ form.player6 }}
+          </div>
+          <div>
+            <label for="{{ form.player6_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 6 Riot ID</label>
+            {{ form.player6_riot_id }}
+          </div>
+        </div>
+        <!-- Player 7 (Optional) -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.player7.id_for_label }}" class="block text-gray-700 text-sm">Player 7</label>
+            {{ form.player7 }}
+          </div>
+          <div>
+            <label for="{{ form.player7_riot_id.id_for_label }}" class="block text-gray-700 text-sm">Player 7 Riot ID</label>
+            {{ form.player7_riot_id }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Registrant Email -->
+    <div class="mb-6">
+      <label for="{{ form.registrant_email.id_for_label }}" class="block text-gray-700 text-sm font-medium mb-2">Your Email</label>
+      {{ form.registrant_email }}
+    </div>
+    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-md">
+      Register Team
+    </button>
+  </form>
+</div>
+{% endblock %}

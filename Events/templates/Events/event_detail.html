@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <a href="{% url 'index' %}" class="text-blue-500 hover:underline mb-4 inline-block">
+            &larr; Back to events
+        </a>
+        
+        <img src="{{ event.image_url }}" alt="{{ event.title }}" class="w-full h-64 md:h-96 object-cover rounded-lg mb-6">
+        
+        <h1 class="text-4xl font-bold mb-2">{{ event.title }}</h1>
+        <div class="flex flex-wrap text-gray-600 mb-6">
+            <div class="mr-6 mb-2">
+                <span class="font-medium">Date:</span> {{ event.date }}
+            </div>
+            <div class="mr-6 mb-2">
+                <span class="font-medium">Location:</span> {{ event.location }}
+            </div>
+            <div class="mb-2">
+                <span class="font-medium">Registration Deadline:</span> {{ event.registration_deadline }}
+            </div>
+        </div>
+        
+        <div class="prose max-w-none">
+            <p>{{ event.description }}</p>
+        </div>
+        
+        <div class="mt-8">
+            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
+                Register for this event
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

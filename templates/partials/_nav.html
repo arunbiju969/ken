@@ -1,3 +1,4 @@
+<!-- filepath: /c:/Users/arunb/Documents/Project/Django/KEN/ken/templates/partials/_nav.html -->
 {% load static %}
 <nav class="bg-indigo-600 fixed w-full z-50 top-0 border-b border-indigo-700 shadow p-4">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
@@ -19,8 +20,27 @@
         <li>
           <a href="{% url 'index' %}" class="block py-2 px-3 text-white hover:text-indigo-200">Home</a>
         </li>
-        <li>
-          <a href="{% url 'tournament_list' %}" class="block py-2 px-3 text-white hover:text-indigo-200">Tournaments</a>
+        <li class="relative">
+          <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-white hover:text-indigo-200">
+            Events
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <!-- Dropdown menu -->
+          <div id="dropdownNavbar" class="z-10 hidden font-normal bg-indigo-600 text-white mt-1 rounded shadow-lg w-44">
+            <ul class="py-2 text-sm">
+              <li>
+                <a href="{% url 'tournament_list' %}" class="block px-4 py-2 hover:bg-indigo-500">Scrims</a>
+              </li>
+              <li>
+                <a href="{% url 'tournament_list' %}" class="block px-4 py-2 hover:bg-indigo-500">Tournaments</a>
+              </li>
+              <li>
+                <a href="{% url 'tournament_list' %}" class="block px-4 py-2 hover:bg-indigo-500">Other</a>
+              </li>
+            </ul>
+          </div>
         </li>
         <li>
           <a href="{% url 'about' %}" class="block py-2 px-3 text-white hover:text-indigo-200">About</a>
