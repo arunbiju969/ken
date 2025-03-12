@@ -252,35 +252,3 @@ def register_team(request):
 def registered_teams(request):
     teams = TeamRegistration.objects.all()  # Optionally filter by tournament if needed
     return render(request, "tournamentpage/registered_teams.html", {"teams": teams})
-
-
-def scrims_page(request):
-    games = ["All Games", "Valorant"]
-    platforms = ["All Platforms", "PC"]
-    statuses = ["All Status", "Upcoming", "Ongoing", "Completed"]
-
-   
-
-    context = {
-        "games": games,
-        "platforms": platforms,
-        "statuses": statuses,
-       
-    }
-
-    return render(request, "tournamentpage/scrims.html", context)
-
-def scrims_leaderboard(request):
-    leaderboard = [
-        {"name": "Team Phoenix", "wins": 12, "losses": 3, "points": 100, "logo": "images/phoenix.png"},
-        {"name": "Shadow Hunters", "wins": 10, "losses": 5, "points": 30, "logo": "images/shadow.png"},
-        {"name": "Cyber Warriors", "wins": 9, "losses": 6, "points": 50, "logo": "images/cyber.png"},
-        {"name": "Nightmare Squad", "wins": 8, "losses": 7, "points": 24, "logo": "images/nightmare.png"},
-        {"name": "Thunderbolts", "wins": 7, "losses": 8, "points": 40, "logo": "images/thunder.png"},
-    ]
-    
-    # Sort by points (descending) and then by wins (if points are tied)
-    leaderboard = sorted(leaderboard, key=lambda x: (-x['points'], -x['wins']))
-
-    return render(request, "tournamentpage/scrims_leaderboard.html", {"leaderboard": leaderboard})
-
