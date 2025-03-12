@@ -1,10 +1,14 @@
 from django.db import models
+import os
 
+def team_logo_upload_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/static/team_logos/<team_name>/<filename>
+    return os.path.join('static', 'team_logos', instance.team_name, filename)
 
 class TeamRegistration(models.Model):
     team_name = models.CharField(max_length=100)
     team_logo = models.ImageField(
-        upload_to="static/team_logos/{team_name}/", blank=True, null=True
+        upload_to=team_logo_upload_path, blank=True, null=True
     )
 
     # Required players (1 to 5)
