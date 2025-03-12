@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}Scrims Leaderboard - Kerala Esports Nexus{% endblock %}
+
+{% block content %}
+<div class="bg-indigo-700 text-white rounded-lg shadow-xl p-8 mb-6">
+    <h1 class="text-3xl font-extrabold mb-2">Scrims Leaderboard</h1>
+    <p class="text-indigo-200">Check out the top-performing teams in recent scrims.</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-xl p-6 overflow-x-auto">
+    <div class="overflow-hidden max-h-[500px]">
+        <table class="w-full border-collapse text-sm">
+            <thead>
+                <tr class="text-white bg-indigo-600">
+                    <th class="py-3 px-6 text-left">Rank</th>
+                    <th class="py-3 px-6 text-left">Team</th>
+                    <th class="py-3 px-6 text-center">Wins</th>
+                    <th class="py-3 px-6 text-center">Losses</th>
+                    <th class="py-3 px-6 text-center">Total Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in leaderboard %}
+                <tr class="transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg cursor-pointer {% if forloop.counter == 1 %} bg-yellow-100 {% elif forloop.counter == 2 %} bg-gray-100 {% elif forloop.counter == 3 %} bg-orange-100 {% else %} bg-white {% endif %}">
+                    <td class="py-4 px-6">{{ forloop.counter }}</td>
+                    <td class="py-4 px-6 flex items-center">
+                        <img src="{% static team.logo %}" class="w-10 h-10 mr-3 rounded-full shadow-md" alt="{{ team.name }}">
+                        <span class="font-semibold text-indigo-800">{{ team.name }}</span>
+                    </td>
+                    <td class="py-4 px-6 text-center">{{ team.wins }}</td>
+                    <td class="py-4 px-6 text-center">{{ team.losses }}</td>
+                    <td class="py-4 px-6 text-center font-bold text-indigo-800">{{ team.points }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
