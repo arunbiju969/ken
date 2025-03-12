@@ -3,7 +3,9 @@ from django.db import models
 
 class TeamRegistration(models.Model):
     team_name = models.CharField(max_length=100)
-    team_logo = models.ImageField(upload_to="team_logos/")
+    team_logo = models.ImageField(
+        upload_to="static/team_logos/{team_name}/", blank=True, null=True
+    )
 
     # Required players (1 to 5)
     player1 = models.CharField(max_length=50)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import TeamRegistrationForm
 import math
+from .models import TeamRegistration
 
 
 def calculate_tournament_bracket(team_count, teams_data=None):
@@ -246,3 +247,8 @@ def register_team(request):
     else:
         form = TeamRegistrationForm()
     return render(request, "partials/_team_registration.html", {"form": form})
+
+
+def registered_teams(request):
+    teams = TeamRegistration.objects.all()  # Optionally filter by tournament if needed
+    return render(request, "tournamentpage/registered_teams.html", {"teams": teams})

@@ -1,0 +1,79 @@
+<!-- filepath: c:\Users\arunb\Documents\Project\Django\KEN\ken\tournamentpage\templates\tournamentpage\registered_teams.html -->
+{% extends "_base.html" %}
+{% load static %}
+{% block title %}Registered Teams - Kerala Esports Nexus{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto py-10">
+  <h2 class="text-3xl font-bold mb-6 text-gray-800">Registered Teams</h2>
+  {% if teams %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {% for team in teams %}
+      <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition-shadow">
+        <div class="flex flex-col items-center mb-4">
+          {% if team.team_logo %}
+          <img src="{{ team.team_logo.url }}" alt="{{ team.team_name }}" class="w-32 h-32 object-cover rounded-full border-2 border-indigo-500">
+          {% else %}
+          <div class="w-14 h-14 bg-gray-200 rounded-full border-2 border-indigo-500"></div>
+          {% endif %}
+          <h3 class="mt-3 text-xl font-semibold text-indigo-800">{{ team.team_name }}</h3>
+        </div>
+        <!-- Team Members list -->
+        <div class="mb-2 w-full">
+          <strong class="block mb-1 text-center text-lg">Team Members:</strong>
+          <ul role="list" class="divide-y divide-gray-200">
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 1: {{ team.player1 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player1_riot_id }}</span></span>
+              </div>
+            </li>
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 2: {{ team.player2 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player2_riot_id }}</span></span>
+              </div>
+            </li>
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 3: {{ team.player3 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player3_riot_id }}</span></span>
+              </div>
+            </li>
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 4: {{ team.player4 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player4_riot_id }}</span></span>
+              </div>
+            </li>
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 5: {{ team.player5 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player5_riot_id }}</span></span>
+              </div>
+            </li>
+            {% if team.player6 %}
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 6: {{ team.player6 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player6_riot_id }}</span></span>
+              </div>
+            </li>
+            {% endif %}
+            {% if team.player7 %}
+            <li class="py-2">
+              <div class="flex items-center justify-between">
+                <span class="text-lg font-medium text-gray-900 truncate">Player 7: {{ team.player7 }}</span>
+                <span class="text-lg text-gray-500 truncate">Riot ID: <span class="text-indigo-600">{{ team.player7_riot_id }}</span></span>
+              </div>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-600">No teams have been registered yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
