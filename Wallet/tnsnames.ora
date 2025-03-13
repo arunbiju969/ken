@@ -1,0 +1,8 @@
+nexus_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ca-montreal-1.oraclecloud.com))(connect_data=(service_name=gfd7658f89c3317_nexus_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+nexus_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ca-montreal-1.oraclecloud.com))(connect_data=(service_name=gfd7658f89c3317_nexus_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+nexus_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ca-montreal-1.oraclecloud.com))(connect_data=(service_name=gfd7658f89c3317_nexus_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+

@@ -87,11 +87,19 @@ WSGI_APPLICATION = "ken.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.oracle",
+        "NAME": config("DB_NAME", default="nexus_high"),
+        "USER": config("DB_USER", default="ken"),
+        "PASSWORD": config("DB_PASSWORD", default="Nexusgaming@123"),
+        "OPTIONS": {
+            "config_dir": config("ORACLE_CONFIG_DIR", default=r"Wallet"),
+            "wallet_location": config("ORACLE_WALLET_LOCATION", default=r"Wallet"),
+            "wallet_password": config(
+                "ORACLE_WALLET_PASSWORD", default="Nexusgaming@123"
+            ),
+        },
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
