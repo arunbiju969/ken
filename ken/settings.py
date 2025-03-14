@@ -149,3 +149,26 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # Final location for collectstatic
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "secret_key": config("AWS_SECRET_ACCESS_KEY"),
+            "access_key": config("AWS_ACCESS_KEY_ID"),
+            "bucket_name": config("AWS_STORAGE_BUCKET_NAME"),
+            "region_name": config("AWS_S3_REGION_NAME"),
+            "endpoint_url": config("AWS_S3_ENDPOINT_URL"),
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3StaticStorage",
+        "OPTIONS": {
+            "secret_key": config("AWS_SECRET_ACCESS_KEY"),
+            "access_key": config("AWS_ACCESS_KEY_ID"),
+            "bucket_name": config("AWS_STORAGE_BUCKET_NAME"),
+            "region_name": config("AWS_S3_REGION_NAME"),
+            "endpoint_url": config("AWS_S3_ENDPOINT_URL"),
+        },
+    },
+}
