@@ -11,17 +11,17 @@
 </div>
 <div class="bg-white rounded-lg shadow-md p-4 mb-6">
     <div class="flex flex-wrap gap-3">
-        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2">
+        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
             {% for game in games %}
             <option>{{ game }}</option>
             {% endfor %}
         </select>
-        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2">
+        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
             {% for platform in platforms %}
             <option>{{ platform }}</option>
             {% endfor %}
         </select>
-        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2">
+        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
             {% for status in statuses %}
             <option>{{ status }}</option>
             {% endfor %}
