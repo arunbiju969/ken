@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from Events.models import Event
+from Events.models import EventDetails
 from .models import Slide
 
 
@@ -10,7 +10,7 @@ def index(request):
     # Sample latest news data
     latest_news = []
 
-    events = Event.objects.all().order_by("date")
+    events = EventDetails.objects.all().order_by("date")
 
     context = {"slides": slides, "latest_news": latest_news, "events": events}
     return render(request, "homepage/index.html", context)
