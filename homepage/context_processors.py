@@ -1,14 +1,25 @@
 import qrcode
 import base64
 from io import BytesIO
+from .models import Announcement, SocialMediaLink, SiteSettings
 
 
 def qr_code_context(request):
     """
-    Context processor that adds QR code and announcements to all templates.
+    Context processor that adds QR code, announcements, and social media links to all templates.
     """
+    # Fetch site settings
+    site_settings = SiteSettings.objects.first()
+    qr_data = (
+        site_settings.qr_data if site_settings else "https://discord.gg/HFsHgtNpAy"
+    )
+    instagram_reel_permalink = (
+        site_settings.instagram_reel_permalink
+        if site_settings
+        else "https://www.instagram.com/reel/DGBNoMounZo/?utm_source=ig_embed&utm_campaign=loading"
+    )
+
     # Generate QR code
-    qr_data = "https://discord.gg/HFsHgtNpAy"
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
@@ -24,19 +35,15 @@ def qr_code_context(request):
     img.save(buffer, format="PNG")
     img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
 
-    # Sample announcements with images
-    announcements = [
-        {
-            "title": "New Event Added",
-            "content": "We have added a new event to our schedule. Check it out now!",
-        },
-        {
-            "title": "Registration Deadline",
-            "content": "Don't forget to register for the upcoming events before the deadline.",
-        },
-        {
-            "title": "Special Offer",
-            "content": "Get a 20% discount on early bird registrations for all events.",
-        },
-    ]
-    return {"qr_code": img_str, "announcements": announcements}
+    # Fetch announcements
+    announcements = Announcement.objects.all()
+
+    # Fetch social media links
+    social_media_links = SocialMediaLink.objects.all()
+
+    return {
+        "qr_code": img_str,
+        "announcements": announcements,
+        "social_media_links": social_media_links,
+        "instagram_reel_permalink": instagram_reel_permalink,
+    }

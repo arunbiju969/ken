@@ -5,16 +5,16 @@
 {% block content %}
   <!-- Carousel Section -->
   <section class="mb-8">
-    {% include "partials/_carousel.html" %}
+    {% include "homepage/partials/_carousel.html" with slides=slides %}
   </section>
 
   <!-- Upcoming Events Section -->
   <section class="mb-8">
-    {% include "partials/_upcoming_events.html" %}
+    {% include "homepage/partials/_upcoming_events.html" %}
   </section>
 
   <!-- Latest News Section -->
   <section class="mb-8">
-    {% include "partials/_latest_news.html" %}
+    {% include "homepage/partials/_latest_news.html" %}
   </section>
 {% endblock %}
