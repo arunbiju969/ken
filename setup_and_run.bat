@@ -10,7 +10,7 @@ REM Move back to the original directory
 cd ken
 
 REM Run the npx tailwindcss command in a new command prompt window
-start cmd /k "npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --watch"
+start cmd /k "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/src/output.css --watch"
 
 REM Run Django makemigrations and migrate commands
 python manage.py makemigrations

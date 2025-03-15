@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import TeamRegistrationForm
-import math
 from .models import TeamRegistration
+from .utils import get_filter_options  # Import the utility function
+import math
 
 
 def calculate_tournament_bracket(team_count, teams_data=None):
@@ -214,23 +215,13 @@ def tournament_list(request):
         # Add sample tournaments
     ]
 
-    # Filter options
-    games = [
-        "All Games",
-        "Valorant",
-    ]
-    platforms = [
-        "All Platforms",
-        "PC",
-    ]
-    statuses = ["All Status", "Upcoming", "Ongoing", "Completed"]
+    # Get filter options
+    filter_options = get_filter_options()
 
     context = {
         "featured_tournaments": featured_tournaments,
         "tournaments": tournaments,
-        "games": games,
-        "platforms": platforms,
-        "statuses": statuses,
+        **filter_options,  # Include filter options in the context
     }
 
     return render(request, "tournamentpage/tournament.html", context)
@@ -255,32 +246,58 @@ def registered_teams(request):
 
 
 def scrims_page(request):
-     games = ["All Games", "Valorant"]
-     platforms = ["All Platforms", "PC"]
-     statuses = ["All Status", "Upcoming", "Ongoing", "Completed"]
- 
-    
- 
-     context = {
-         "games": games,
-         "platforms": platforms,
-         "statuses": statuses,
-        
-     }
- 
-     return render(request, "tournamentpage/scrims.html", context)
- 
+    # Get filter options
+    filter_options = get_filter_options()
+
+    context = {
+        **filter_options,  # Include filter options in the context
+    }
+
+    return render(request, "tournamentpage/scrims.html", context)
+
+
 def scrims_leaderboard(request):
-     leaderboard = [
-         {"name": "Team Phoenix", "wins": 12, "losses": 3, "points": 100, "logo": "images/phoenix.png"},
-         {"name": "Shadow Hunters", "wins": 10, "losses": 5, "points": 30, "logo": "images/shadow.png"},
-         {"name": "Cyber Warriors", "wins": 9, "losses": 6, "points": 50, "logo": "images/cyber.png"},
-         {"name": "Nightmare Squad", "wins": 8, "losses": 7, "points": 24, "logo": "images/nightmare.png"},
-         {"name": "Thunderbolts", "wins": 7, "losses": 8, "points": 40, "logo": "images/thunder.png"},
-     ]
-     
-     # Sort by points (descending) and then by wins (if points are tied)
-     leaderboard = sorted(leaderboard, key=lambda x: (-x['points'], -x['wins']))
- 
-     return render(request, "tournamentpage/scrims_leaderboard.html", {"leaderboard": leaderboard})
- 
+    leaderboard = [
+        {
+            "name": "Team Phoenix",
+            "wins": 12,
+            "losses": 3,
+            "points": 100,
+            "logo": "images/phoenix.png",
+        },
+        {
+            "name": "Shadow Hunters",
+            "wins": 10,
+            "losses": 5,
+            "points": 30,
+            "logo": "images/shadow.png",
+        },
+        {
+            "name": "Cyber Warriors",
+            "wins": 9,
+            "losses": 6,
+            "points": 50,
+            "logo": "images/cyber.png",
+        },
+        {
+            "name": "Nightmare Squad",
+            "wins": 8,
+            "losses": 7,
+            "points": 24,
+            "logo": "images/nightmare.png",
+        },
+        {
+            "name": "Thunderbolts",
+            "wins": 7,
+            "losses": 8,
+            "points": 40,
+            "logo": "images/thunder.png",
+        },
+    ]
+
+    # Sort by points (descending) and then by wins (if points are tied)
+    leaderboard = sorted(leaderboard, key=lambda x: (-x["points"], -x["wins"]))
+
+    return render(
+        request, "tournamentpage/scrims_leaderboard.html", {"leaderboard": leaderboard}
+    )
