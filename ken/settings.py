@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "aboutpage",
     "tournamentpage",
     "Events",
+    "scrimpage",
 ]
 
 MIDDLEWARE = [

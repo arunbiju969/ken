@@ -5,6 +5,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("about/", include("aboutpage.urls")),  # About page URLs
     path("tournament/", include("tournamentpage.urls")),  # Tournament page URLs
+    path("scrims/", include("scrimpage.urls")),  # Scrims URLs
     path("events/", include("Events.urls")),  # Events URLs
     path("", include("homepage.urls")),  # Home page URLs (catch-all)
 ]
