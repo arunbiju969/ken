@@ -1,139 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TeamRegistrationForm
 from .models import TeamRegistration
-from Events.models import EventDetails, Game  # Import the EventDetails and Game models
-from .utils import get_filter_options  # Import the utility function
-import math
-
-
-def calculate_tournament_bracket(team_count, teams_data=None):
-    """
-    Calculate tournament bracket structure based on number of teams.
-    Returns a complete data structure for the template to render.
-    """
-    # Default team data if not provided
-    if teams_data is None:
-        teams_data = [{"name": f"Team {i + 1}", "id": i + 1} for i in range(team_count)]
-
-    # Calculate total rounds needed
-    rounds_count = math.ceil(math.log2(team_count))
-
-    # Calculate byes needed
-    next_power_of_two = 2**rounds_count
-    byes_count = next_power_of_two - team_count
-    has_byes = byes_count > 0
-
-    # Generate bracket structure
-    bracket = []
-
-    # First round setup with proper seeding
-    first_round_matches = []
-
-    # For 5 teams, we should have 2 matches (4 teams) + 1 bye (1 team)
-    # The number of matches in round 1 is floor(team_count/2)
-    match_count = team_count // 2
-
-    # Create the matches
-    for i in range(match_count):
-        first_round_matches.append(
-            {
-                "is_bye": False,
-                "team1": teams_data[i * 2],
-                "team2": teams_data[i * 2 + 1],
-                "winner": None,  # No winner yet
-                "round": 1,
-                "match_number": i + 1,
-            }
-        )
-
-    # Add byes for remaining teams
-    # For 5 teams, only team5 gets a bye
-    for i in range(match_count * 2, team_count):
-        first_round_matches.append(
-            {
-                "is_bye": True,
-                "team1": teams_data[i],
-                "team2": None,
-                "winner": teams_data[i],  # Team with bye automatically advances
-                "round": 1,
-                "match_number": match_count + (i - match_count * 2) + 1,
-            }
-        )
-
-    bracket.append(
-        {
-            "round_number": 1,
-            "round_name": "Round 1",
-            "matches": first_round_matches,
-            "spacing": 8,  # Base spacing
-        }
-    )
-
-    # Generate subsequent rounds
-    remaining_teams = team_count - byes_count  # For round 1 (actual matches)
-
-    for r in range(2, rounds_count + 1):
-        # Calculate teams advancing from previous round
-        previous_matches = bracket[r - 2]["matches"]
-        remaining_teams = len(previous_matches)  # Winners from previous round
-
-        matches_in_round = remaining_teams // 2
-        byes_in_round = remaining_teams % 2
-        round_matches = []
-
-        # Calculate visual spacing for this round
-        spacing = 8 * (2 ** (r - 1))
-
-        # Create regular matches
-        for i in range(matches_in_round):
-            round_matches.append(
-                {
-                    "is_bye": False,
-                    "team1": None,
-                    "team2": None,
-                    "winner": None,
-                    "round": r,
-                    "match_number": i + 1,
-                }
-            )
-
-        # Add byes if needed
-        for i in range(byes_in_round):
-            round_matches.append(
-                {
-                    "is_bye": True,
-                    "team1": None,
-                    "team2": None,
-                    "winner": None,
-                    "round": r,
-                    "match_number": matches_in_round + i + 1,
-                }
-            )
-
-        round_name = (
-            "Finals"
-            if r == rounds_count
-            else "Semifinals"
-            if r == rounds_count - 1
-            else f"Round {r}"
-        )
-
-        bracket.append(
-            {
-                "round_number": r,
-                "round_name": round_name,
-                "matches": round_matches,
-                "spacing": spacing,
-            }
-        )
-
-    return {
-        "bracket": bracket,
-        "rounds_count": rounds_count,
-        "team_count": team_count,
-        "has_byes": has_byes,
-        "byes_count": byes_count,
-    }
+from Events.models import EventDetails
+from .utils import (
+    get_filter_options,
+    calculate_tournament_bracket,
+)  # Import the utility function
 
 
 def tournament_detail(request, tournament_id):
@@ -165,15 +37,19 @@ def tournament_list(request):
     selected_status = request.GET.get("status")
 
     # Fetch all tournaments from the EventDetails model
-    tournaments = EventDetails.objects.all()
+    tournaments = EventDetails.objects.filter(event_type__name="Tournament")
 
     # Apply filters
+    filters_applied = False
     if selected_game:
         tournaments = tournaments.filter(game__name=selected_game)
+        filters_applied = True
     if selected_platform:
         tournaments = tournaments.filter(game__platform=selected_platform)
+        filters_applied = True
     if selected_status:
         tournaments = tournaments.filter(status=selected_status.lower())
+        filters_applied = True
 
     # Fetch featured tournaments from the EventDetails model
     featured_tournaments = tournaments.filter(status="upcoming")[:2]
@@ -181,12 +57,28 @@ def tournament_list(request):
     # Get filter options
     filter_options = get_filter_options()
 
+    # Define breadcrumb items
+    if filters_applied:
+        breadcrumb_items = [
+            {"name": "Home", "url": "index"},
+            {"name": "Tournaments", "url": "tournament_list"},
+            {"name": "Filtered Tournaments", "url": None},
+        ]
+    else:
+        breadcrumb_items = [
+            {"name": "Home", "url": "index"},
+            {"name": "Tournaments", "url": "tournament_list"},
+            {"name": "Featured Tournaments", "url": None},
+        ]
+
     context = {
         "featured_tournaments": featured_tournaments,
         "tournaments": tournaments,
         "selected_game": selected_game,
         "selected_platform": selected_platform,
         "selected_status": selected_status,
+        "filters_applied": filters_applied,
+        "breadcrumb_items": breadcrumb_items,
         **filter_options,  # Include filter options in the context
     }
 
@@ -211,11 +103,55 @@ def registered_teams(request):
     return render(request, "tournamentpage/registered_teams.html", {"teams": teams})
 
 
-def scrims_page(request):
+def scrims_list(request):
+    # Get filter parameters from the request
+    selected_game = request.GET.get("game")
+    selected_platform = request.GET.get("platform")
+    selected_status = request.GET.get("status")
+
+    # Fetch all scrims from the EventDetails model
+    scrims = EventDetails.objects.filter(event_type__name="Scrim")
+
+    # Apply filters
+    filters_applied = False
+    if selected_game:
+        scrims = scrims.filter(game__name=selected_game)
+        filters_applied = True
+    if selected_platform:
+        scrims = scrims.filter(game__platform=selected_platform)
+        filters_applied = True
+    if selected_status:
+        scrims = scrims.filter(status=selected_status.lower())
+        filters_applied = True
+
+    # Fetch featured scrims from the EventDetails model
+    featured_scrims = scrims.filter(status="upcoming")[:2]
+
     # Get filter options
     filter_options = get_filter_options()
 
+    # Define breadcrumb items
+    if filters_applied:
+        breadcrumb_items = [
+            {"name": "Home", "url": "index"},
+            {"name": "Scrims", "url": "scrims_list"},
+            {"name": "Filtered Scrims", "url": None},
+        ]
+    else:
+        breadcrumb_items = [
+            {"name": "Home", "url": "index"},
+            {"name": "Scrims", "url": "scrims_list"},
+            {"name": "Featured Scrims", "url": None},
+        ]
+
     context = {
+        "featured_scrims": featured_scrims,
+        "scrims": scrims,
+        "selected_game": selected_game,
+        "selected_platform": selected_platform,
+        "selected_status": selected_status,
+        "filters_applied": filters_applied,
+        "breadcrumb_items": breadcrumb_items,
         **filter_options,  # Include filter options in the context
     }
 

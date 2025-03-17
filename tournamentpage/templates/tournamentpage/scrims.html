@@ -1,79 +1,119 @@
+<!-- filepath: c:\Users\arunb\Documents\Project\Django\KEN\ken\tournamentpage\templates\tournamentpage\scrims.html -->
 {% extends "_base.html" %}
- {% load static %}
- 
- {% block title %}Scrims - Kerala Esports Nexus{% endblock %}
- 
- {% block content %}
- <div class="bg-indigo-700 text-white rounded-lg shadow-md p-8 mb-6">
-     <h1 class="text-3xl font-bold mb-2">Esports Scrims</h1>
-     <p class="text-indigo-100">Join competitive scrims and practice matches with top teams across Kerala</p>
- </div>
- 
- <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-     <div class="flex flex-wrap gap-3">
-         <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
-             {% for game in games %}
-             <option>{{ game }}</option>
-             {% endfor %}
-         </select>
-         <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
-             {% for platform in platforms %}
-             <option>{{ platform }}</option>
-             {% endfor %}
-         </select>
-         <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
-             {% for status in statuses %}
-             <option>{{ status }}</option>
-             {% endfor %}
-         </select>
-         <button class="bg-indigo-600 text-white px-4 py-2 rounded-md ml-auto">Filter</button>
-     </div>
- </div>
- 
- <!-- Leaderboard Button -->
- <div class="flex justify-between items-center mb-4">
-     <h2 class="text-2xl font-bold">Upcoming Scrims</h2>
-     <a href="{% url 'scrims_leaderboard' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
-         View Leaderboard
-     </a>
- </div>
- 
- <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
-     {% for scrim in scrims %}
-     <div class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow bg-white text-gray-900">
-         <div class="h-40 relative">
-             <img src="{% static scrim.image %}" class="w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="{{ scrim.name }}">
-             <div class="absolute top-3 right-3">
-                 <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs">{{ scrim.status }}</span>
-             </div>
-             <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
-                 <div class="flex items-center">
-                     <img src="{% static scrim.game_icon %}" class="w-8 h-8 mr-2 rounded" alt="{{ scrim.game }}">
-                     <h3 class="text-white font-medium">{{ scrim.name }}</h3>
-                 </div>
-             </div>
-         </div>
-         <div class="p-4">
-             <div class="flex justify-between text-sm mb-3">
-                 <div class="flex items-center text-gray-600">
-                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                     </svg>
-                     <span>{{ scrim.date }}</span>
-                 </div>
-                 <div class="text-indigo-600 font-semibold">Format: {{ scrim.format }}</div>
-             </div>
-             <div class="flex justify-between items-center mt-3">
-                 <div class="text-sm text-gray-500">{{ scrim.teams }} Teams</div>
-                 <a href="{% url 'scrim_detail' scrim.id %}" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View Details →</a>
-             </div>
-         </div>
-     </div>
-     {% empty %}
-     <div class="col-span-full bg-indigo-50 rounded-lg p-8 text-center">
-         <p class="text-gray-600">No upcoming scrims at the moment. Please check back later!</p>
-     </div>
-     {% endfor %}
- </div>
- 
- {% endblock %}
+{% load static %}
+
+{% block title %}Scrims - Kerala Esports Nexus{% endblock %}
+
+{% block content %}
+<div class="bg-indigo-700 text-white rounded-lg shadow-md p-8 mb-6">
+    <h1 class="text-3xl font-bold mb-2">Esports Scrims</h1>
+    <p class="text-indigo-100">Join competitive scrims and practice matches with top teams across Kerala</p>
+</div>
+
+{% include "partials/_filter.html" %}
+
+<!-- Breadcrumb -->
+{% include "partials/_breadcrumb.html" %}
+
+<div class="overflow-hidden mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {% for featured_scrim in featured_scrims %}
+    <div class="rounded-lg shadow-md p-4 mb-6 bg-white text-gray-900">
+      <div class="relative aspect-video overflow-hidden mb-4">
+          <img src="{{ featured_scrim.image_url.url }}" class="absolute w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="Featured Scrim">
+          <!-- Overlay with semi-transparent gradient -->
+          <div class="absolute inset-0 bg-gradient-to-b from-indigo-900/40 to-indigo-900/70"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+              <div class="text-center z-10">
+                  <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm shadow-md">FEATURED</span>
+                  <h2 class="text-2xl font-bold text-white mt-2 drop-shadow-lg">{{ featured_scrim.title }}</h2>
+              </div>
+          </div>
+      </div>
+      <div class="p-6">
+          <div class="flex justify-between mb-4">
+              <div class="flex items-center">
+                  <img src="{{ featured_scrim.game.icon.url }}" class="w-10 h-10 mr-2" alt="{{ featured_scrim.game.name }}">
+                  <span class="font-medium">{{ featured_scrim.game.name }}</span>
+              </div>
+              <div class="text-indigo-600 font-semibold">Format: {{ featured_scrim.format }}</div>
+          </div>
+          <div class="flex flex-wrap gap-4 mb-4">
+              <div class="flex items-center text-gray-600">
+                  <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                  <span>{{ featured_scrim.date }}</span>
+              </div>
+              <div class="flex items-center text-gray-600">
+                  <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  <span>{{ featured_scrim.location }}</span>
+              </div>
+              <div class="flex items-center text-gray-600">
+                  <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                  <span>{{ featured_scrim.teams }} Teams</span>
+              </div>
+          </div>
+          <p class="text-gray-700 mb-6">{{ featured_scrim.description }}</p>
+          <div class="flex gap-3">
+            <a href="{% url 'register_team' %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded">Join Now</a>
+            <a href="#" class="border border-indigo-600 text-indigo-600 px-4 py-2 rounded hover:bg-indigo-50">View Details</a>
+          </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Leaderboard Button -->
+<div class="flex justify-between items-center mb-4">
+  {% if filters_applied %}
+  <h2 class="text-2xl font-bold">Filtered Results</h2>
+  {% else %}
+  <h2 class="text-2xl font-bold">Upcoming Scrims</h2>
+  {% endif %}
+  <a href="{% url 'scrims_leaderboard' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
+      View Leaderboard
+  </a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+    {% for scrim in scrims %}
+    <div class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow bg-white text-gray-900">
+        <div class="h-40 relative">
+            <img src="{{ scrim.image_url.url }}" class="w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="{{ scrim.title }}">
+            <div class="absolute top-3 right-3">
+                <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs">{{ scrim.status }}</span>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                <div class="flex items-center">
+                    <img src="{{ scrim.game.icon.url }}" class="w-8 h-8 mr-2 rounded" alt="{{ scrim.game.name }}">
+                    <h3 class="text-white font-medium">{{ scrim.title }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="p-4">
+            <div class="flex justify-between text-sm mb-3">
+                <div class="flex items-center text-gray-600">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>{{ scrim.date }}</span>
+                </div>
+                <div class="text-indigo-600 font-semibold">Format: {{ scrim.format }}</div>
+            </div>
+            <div class="flex justify-between items-center mt-3">
+                <div class="text-sm text-gray-500">{{ scrim.teams }} Teams</div>
+                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View Details →</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full bg-indigo-50 rounded-lg p-8 text-center">
+        {% if filters_applied %}
+            <p class="text-gray-600">No scrims match your filter criteria. Please adjust your filters and try again.</p>
+        {% else %}
+            <p class="text-gray-600">No upcoming scrims at the moment. Please check back later!</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
