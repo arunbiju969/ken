@@ -1,0 +1,22 @@
+<div class="bg-white rounded-lg shadow-md p-4 mb-6">
+    <form method="get" action="{% url 'tournament_list' %}">
+        <div class="flex flex-wrap gap-3">
+            <select name="game" class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
+                {% for game in games %}
+                <option value="{{ game }}" {% if game == selected_game %}selected{% endif %}>{{ game }}</option>
+                {% endfor %}
+            </select>
+            <select name="platform" class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
+                {% for platform in platforms %}
+                <option value="{{ platform }}" {% if platform == selected_platform %}selected{% endif %}>{{ platform }}</option>
+                {% endfor %}
+            </select>
+            <select name="status" class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
+                {% for status in statuses %}
+                <option value="{{ status }}" {% if status == selected_status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md ml-auto">Filter</button>
+        </div>
+    </form>
+</div>

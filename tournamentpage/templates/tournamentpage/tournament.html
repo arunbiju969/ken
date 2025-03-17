@@ -9,46 +9,29 @@
     <h1 class="text-3xl font-bold mb-2">Esports Tournaments</h1>
     <p class="text-indigo-100">Find, register and compete in the best esports tournaments across Kerala</p>
 </div>
-<div class="bg-white rounded-lg shadow-md p-4 mb-6">
-    <div class="flex flex-wrap gap-3">
-        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
-            {% for game in games %}
-            <option>{{ game }}</option>
-            {% endfor %}
-        </select>
-        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
-            {% for platform in platforms %}
-            <option>{{ platform }}</option>
-            {% endfor %}
-        </select>
-        <select class="bg-gray-50 border border-gray-300 rounded-md px-3 py-2 appearance-none pr-8">
-            {% for status in statuses %}
-            <option>{{ status }}</option>
-            {% endfor %}
-        </select>
-        <button class="bg-indigo-600 text-white px-4 py-2 rounded-md ml-auto">Filter</button>
-    </div>
-</div>
+
+{% include "partials/_filter.html" %}
+
 <div class="overflow-hidden mb-6">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {% for featured_tournament in featured_tournaments %}
     <div class="rounded-lg shadow-md p-4 mb-6 bg-white text-gray-900">
       <div class="relative aspect-video overflow-hidden mb-4">
-          <img src="{% static featured_tournament.image %}" class="absolute w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="Featured Tournament">
+          <img src="{{ featured_tournament.image_url.url }}" class="absolute w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="Featured Tournament">
           <!-- Overlay with semi-transparent gradient -->
           <div class="absolute inset-0 bg-gradient-to-b from-indigo-900/40 to-indigo-900/70"></div>
           <div class="absolute inset-0 flex items-center justify-center">
               <div class="text-center z-10">
                   <span class="bg-indigo-600 text-white px-3 py-1 rounded-full text-sm shadow-md">FEATURED</span>
-                  <h2 class="text-2xl font-bold text-white mt-2 drop-shadow-lg">{{ featured_tournament.name }}</h2>
+                  <h2 class="text-2xl font-bold text-white mt-2 drop-shadow-lg">{{ featured_tournament.title }}</h2>
               </div>
           </div>
       </div>
       <div class="p-6">
           <div class="flex justify-between mb-4">
               <div class="flex items-center">
-                  <img src="{% static featured_tournament.game_icon %}" class="w-10 h-10 mr-2" alt="{{ featured_tournament.game }}">
-                  <span class="font-medium">{{ featured_tournament.game }}</span>
+                  <img src="{{ featured_tournament.game.icon.url }}" class="w-10 h-10 mr-2" alt="{{ featured_tournament.game.name }}">
+                  <span class="font-medium">{{ featured_tournament.game.name }}</span>
               </div>
               <div class="text-indigo-600 font-semibold">Prize: ₹{{ featured_tournament.prize }}</div>
           </div>
@@ -81,14 +64,14 @@
     {% for tournament in tournaments %}
     <div class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow bg-white text-gray-900">
         <div class="h-40 relative">
-            <img src="{% static tournament.image %}" class="w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="{{ tournament.name }}">
+            <img src="{{ tournament.image_url.url }}" class="w-full h-full object-cover opacity-80 filter blur-sm scale-105" alt="{{ tournament.title }}">
             <div class="absolute top-3 right-3">
                 <span class="bg-indigo-600 text-white px-2 py-1 rounded text-xs">{{ tournament.status }}</span>
             </div>
             <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
                 <div class="flex items-center">
-                    <img src="{% static tournament.game_icon %}" class="w-8 h-8 mr-2 rounded" alt="{{ tournament.game }}">
-                    <h3 class="text-white font-medium">{{ tournament.name }}</h3>
+                    <img src="{{ tournament.game.icon.url }}" class="w-8 h-8 mr-2 rounded" alt="{{ tournament.game.name }}">
+                    <h3 class="text-white font-medium">{{ tournament.title }}</h3>
                 </div>
             </div>
         </div>

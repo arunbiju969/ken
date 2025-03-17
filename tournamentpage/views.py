@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TeamRegistrationForm
 from .models import TeamRegistration
+from Events.models import EventDetails, Game  # Import the EventDetails and Game models
 from .utils import get_filter_options  # Import the utility function
 import math
 
@@ -136,43 +137,21 @@ def calculate_tournament_bracket(team_count, teams_data=None):
 
 
 def tournament_detail(request, tournament_id):
-    # In a real app, you'd fetch the specific tournament from database
-    tournament = {
-        "id": tournament_id,
-        "name": "Kerala Esports Championship 2025"
-        if tournament_id == 1
-        else f"Tournament {tournament_id}",
-        "image": "img/ft_tour.png",
-        "game": "Valorant",
-        "game_icon": "img/val_icon.png",
-        "prize": "1,00,000",
-        "date": "Mar 15-20, 2025",
-        "location": "Kochi",
-        "teams": 6,  # Changed to 7 for testing odd number
-        "format": "5v5 Double Elimination",
-        "description": "The flagship esports tournament bringing together the best teams across Kerala to compete for glory!",
-        "rules": [
-            "5v5 team format",
-            "Double elimination bracket",
-            "Best of 3 matches",
-            "Standard competitive rules apply",
-        ],
-        "status": "Upcoming",
-        "champion": None,  # No champion yet
-    }
+    # Fetch the specific tournament from the database
+    tournament = get_object_or_404(EventDetails, id=tournament_id)
 
     # Mock data for teams
-    teams = [{"name": f"Team {i + 1}", "id": i + 1} for i in range(tournament["teams"])]
+    teams = [{"name": f"Team {i + 1}", "id": i + 1} for i in range(tournament.teams)]
 
     # Add some sample scores for demonstration (first round matches)
-    if tournament["teams"] >= 4:
+    if tournament.teams >= 4:
         teams[0]["score"] = 2
         teams[1]["score"] = 1
         teams[2]["score"] = 0
         teams[3]["score"] = 2
 
     # Calculate bracket structure
-    bracket_data = calculate_tournament_bracket(tournament["teams"], teams)
+    bracket_data = calculate_tournament_bracket(tournament.teams, teams)
 
     context = {"tournament": tournament, "teams": teams, "bracket_data": bracket_data}
 
@@ -180,40 +159,24 @@ def tournament_detail(request, tournament_id):
 
 
 def tournament_list(request):
-    # Featured tournaments
-    featured_tournaments = [
-        {
-            "id": 1,
-            "name": "Kerala Esports Championship 2025",
-            "image": "img/ft_tour.png",
-            "game": "Valorant",
-            "game_icon": "img/val_icon.png",
-            "prize": "1,00,000",
-            "date": "Mar 15-20, 2025",
-            "location": "Kochi",
-            "teams": 8,
-            "description": "The flagship esports tournament bringing together the best teams across Kerala to compete for glory!",
-            "status": "Upcoming",
-        },
-        {
-            "id": 2,
-            "name": "Kerala Mobile Gaming Fest",
-            "image": "img/mobile_gaming_fest.png",
-            "game": "PUBG Mobile",
-            "game_icon": "img/pubg_icon.png",
-            "prize": "50,000",
-            "date": "Apr 10-12, 2025",
-            "location": "Thiruvananthapuram",
-            "teams": 16,
-            "description": "A thrilling mobile gaming tournament featuring the best PUBG Mobile teams.",
-            "status": "Upcoming",
-        },
-    ]
+    # Get filter parameters from the request
+    selected_game = request.GET.get("game")
+    selected_platform = request.GET.get("platform")
+    selected_status = request.GET.get("status")
 
-    # Tournament list
-    tournaments = [
-        # Add sample tournaments
-    ]
+    # Fetch all tournaments from the EventDetails model
+    tournaments = EventDetails.objects.all()
+
+    # Apply filters
+    if selected_game:
+        tournaments = tournaments.filter(game__name=selected_game)
+    if selected_platform:
+        tournaments = tournaments.filter(game__platform=selected_platform)
+    if selected_status:
+        tournaments = tournaments.filter(status=selected_status.lower())
+
+    # Fetch featured tournaments from the EventDetails model
+    featured_tournaments = tournaments.filter(status="upcoming")[:2]
 
     # Get filter options
     filter_options = get_filter_options()
@@ -221,6 +184,9 @@ def tournament_list(request):
     context = {
         "featured_tournaments": featured_tournaments,
         "tournaments": tournaments,
+        "selected_game": selected_game,
+        "selected_platform": selected_platform,
+        "selected_status": selected_status,
         **filter_options,  # Include filter options in the context
     }
 
