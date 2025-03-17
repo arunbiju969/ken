@@ -12,6 +12,9 @@
 
 {% include "partials/_filter.html" %}
 
+<!-- Breadcrumb -->
+{% include "partials/_breadcrumb.html" %}
+{% if not filters_applied %}
 <div class="overflow-hidden mb-6">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {% for featured_tournament in featured_tournaments %}
@@ -59,7 +62,13 @@
     {% endfor %}
   </div>
 </div>
+{% endif %}
+{% if filters_applied %}
+<h2 class="text-2xl font-bold mb-4">Filtered Result</h2>
+{% else %}
 <h2 class="text-2xl font-bold mb-4">Upcoming Tournaments</h2>
+{% endif %}
+
 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
     {% for tournament in tournaments %}
     <div class="rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow bg-white text-gray-900">
@@ -91,7 +100,11 @@
     </div>
     {% empty %}
     <div class="col-span-full bg-indigo-50 rounded-lg p-8 text-center">
-        <p class="text-gray-600">No upcoming tournaments at the moment. Please check back later!</p>
+        {% if filters_applied %}
+            <p class="text-gray-600">No tournaments match your filter criteria. Please adjust your filters and try again.</p>
+        {% else %}
+            <p class="text-gray-600">No upcoming tournaments at the moment. Please check back later!</p>
+        {% endif %}
     </div>
     {% endfor %}
 </div>

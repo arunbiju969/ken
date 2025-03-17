@@ -327,6 +327,9 @@
   .mr-3 {
     margin-right: calc(var(--spacing) * 3);
   }
+  .mr-4 {
+    margin-right: calc(var(--spacing) * 4);
+  }
   .mr-6 {
     margin-right: calc(var(--spacing) * 6);
   }
@@ -538,9 +541,6 @@
   }
   .resize {
     resize: both;
-  }
-  .list-disc {
-    list-style-type: disc;
   }
   .appearance-none {
     appearance: none;
@@ -809,6 +809,9 @@
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
   }
+  .px-5 {
+    padding-inline: calc(var(--spacing) * 5);
+  }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
   }
@@ -844,9 +847,6 @@
   }
   .pr-8 {
     padding-right: calc(var(--spacing) * 8);
-  }
-  .pl-5 {
-    padding-left: calc(var(--spacing) * 5);
   }
   .text-center {
     text-align: center;
@@ -1099,6 +1099,13 @@
       }
     }
   }
+  .hover\:text-blue-600 {
+    &:hover {
+      @media (hover: hover) {
+        color: #1C64F2;
+      }
+    }
+  }
   .hover\:text-gray-700 {
     &:hover {
       @media (hover: hover) {
@@ -1256,6 +1263,16 @@
       }
     }
   }
+  .dark\:border-gray-700 {
+    @media (prefers-color-scheme: dark) {
+      border-color: #374151;
+    }
+  }
+  .dark\:bg-gray-800 {
+    @media (prefers-color-scheme: dark) {
+      background-color: #1F2937;
+    }
+  }
   .dark\:bg-gray-800\/30 {
     @media (prefers-color-scheme: dark) {
       background-color: color-mix(in oklab, #1F2937 30%, transparent);
@@ -1274,6 +1291,11 @@
   .dark\:bg-indigo-600\/50 {
     @media (prefers-color-scheme: dark) {
       background-color: color-mix(in oklab, #5850EC 50%, transparent);
+    }
+  }
+  .dark\:text-gray-400 {
+    @media (prefers-color-scheme: dark) {
+      color: #9CA3AF;
     }
   }
   .dark\:text-gray-800 {
@@ -1308,6 +1330,15 @@
     @media (prefers-color-scheme: dark) {
       &:is(:where(.group):focus *) {
         --tw-ring-color: color-mix(in oklab, #1F2937 70%, transparent);
+      }
+    }
+  }
+  .dark\:hover\:text-white {
+    @media (prefers-color-scheme: dark) {
+      &:hover {
+        @media (hover: hover) {
+          color: #ffffff;
+        }
       }
     }
   }

@@ -12,12 +12,33 @@ cd ken
 REM Run the npx tailwindcss command in a new command prompt window
 start cmd /k "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/src/output.css --watch"
 
-REM Run Django makemigrations and migrate commands
-python manage.py makemigrations
-python manage.py migrate
+REM Prompt for makemigrations
+SET /P RUN_MAKEMIGRATIONS="Run makemigrations? (y/n): "
+IF /I "%RUN_MAKEMIGRATIONS%"=="y" (
+    echo Running makemigrations...
+    python manage.py makemigrations
+) ELSE (
+    echo Skipping makemigrations...
+)
 
-REM Run Django collectstatic command with no input prompt
-python manage.py collectstatic --noinput
+REM Prompt for migrate
+SET /P RUN_MIGRATE="Run migrate? (y/n): "
+IF /I "%RUN_MIGRATE%"=="y" (
+    echo Running migrate...
+    python manage.py migrate
+) ELSE (
+    echo Skipping migrate...
+)
+
+REM Prompt for collectstatic
+SET /P COLLECT_STATIC="Do you want to collect static files? (y/n): "
+IF /I "%COLLECT_STATIC%"=="y" (
+    python manage.py collectstatic --noinput
+) ELSE (
+    echo Skipping collectstatic...
+)
+
+
 
 REM Run the Django development server
 python manage.py runserver
