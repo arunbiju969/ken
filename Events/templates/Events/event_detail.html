@@ -6,8 +6,7 @@
         <a href="{% url 'index' %}" class="text-blue-500 hover:underline mb-4 inline-block">
             &larr; Back to events
         </a>
-        
-        <img src="{{ event.image_url }}" alt="{{ event.title }}" class="w-full h-64 md:h-96 object-cover rounded-lg mb-6">
+        <img src="{{ event.image_url.url }}" alt="{{ event.title }}" class="w-full h-64 md:h-96 object-cover rounded-lg mb-6">
         
         <h1 class="text-4xl font-bold mb-2">{{ event.title }}</h1>
         <div class="flex flex-wrap text-gray-600 mb-6">

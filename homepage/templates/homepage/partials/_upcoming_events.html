@@ -5,11 +5,17 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for event in events %}
       <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <img src="{{ event.image_url }}" alt="{{ event.title }}" class="w-full h-48 object-cover">
+        <img src="{{ event.image_url.url }}" alt="{{ event.title }}" class="w-full h-48 object-cover">
         <div class="p-4">
           <h3 class="text-xl font-medium mb-2">{{ event.title }}</h3>
           <p class="text-gray-700 mb-4">{{ event.description }}</p>
-          <a href="{% url 'event_detail' event.id %}" class="text-indigo-600 hover:underline">Learn more</a>
+          {% if event.event_type.name == "Tournament" %}
+            <a href="{% url 'tournament_detail' event.id %}" class="text-indigo-600 hover:underline">Learn more</a>
+          {% elif event.event_type.name == 'Scrim' %}
+            <a href="{% url 'event_detail' event.id %}" class="text-indigo-600 hover:underline">Learn more</a>
+          {% else %}
+            <a href="{% url 'event_detail' event.id %}" class="text-indigo-600 hover:underline">Learn more</a>
+          {% endif %}
         </div>
       </div>
       {% endfor %}
